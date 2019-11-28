@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">自用红包</string>
+    <string name="des">自用红包辅助</string>
+    <string-array name="list">
+        <item>抢微信红包设置</item>
+        <item>使用说明</item>
+    </string-array>
+</resources>

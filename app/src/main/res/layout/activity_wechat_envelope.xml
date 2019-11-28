@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        layout="@layout/include_title"/>
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/margin_left"
+            android:layout_marginRight="@dimen/margin_right"
+            android:layout_marginTop="20dp"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_small"
+                    android:text="微信红包监控开关："
+                    android:layout_centerHorizontal="true"/>
+                <CheckBox
+                    android:id="@+id/cb_qq_control"
+                    android:layout_width="60dp"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:checked="false"
+                    android:button="@mipmap/switch_off"/>
+
+            </LinearLayout>
+            <View
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                style="@style/view_line"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textSize="@dimen/text_size_small"
+                android:text="提示：服务需开启才有效，监控可选择。"
+                android:gravity="center"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_small"
+                    android:text="通知监控开关："
+                    android:layout_centerHorizontal="true"/>
+                <CheckBox
+                    android:id="@+id/cb_wechat_notification_control"
+                    android:layout_width="60dp"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:checked="true"
+                    android:button="@drawable/switch_course_control"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_small"
+                    android:text="聊天列表页监控开关："
+                    android:layout_centerHorizontal="true"/>
+                <CheckBox
+                    android:id="@+id/cb_wechat_chat_control"
+                    android:layout_width="60dp"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:checked="true"
+                    android:button="@drawable/switch_course_control"/>
+            </LinearLayout>
+            <View
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                style="@style/view_line"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginBottom="10dp"
+                    android:textSize="@dimen/text_size_small"
+                    android:text="QQ防封号延迟抢红包设置"
+                    />
+                <TextView
+                    android:id="@+id/tv_qq_putong"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="@dimen/text_size_small"
+                    android:text="打开红包延迟时间："
+                    />
+
+                <SeekBar
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sb_qq_putong"
+                    android:layout_marginTop="10dp"
+                    android:max="10"/>
+
+                <TextView
+                    android:id="@+id/tv_qq_lingqu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="@dimen/text_size_small"
+                    android:text="红包领取页关闭时间："
+                    />
+
+                <SeekBar
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sb_qq_lingqu"
+                    android:max="10"
+                    android:layout_marginTop="10dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
