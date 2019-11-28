@@ -7,13 +7,13 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.example.redenvelopes.R
-import com.example.redenvelopes.base.CBaseActivity
+import com.example.redenvelopes.base.PermissionBaseActivity
 import kotlinx.android.synthetic.main.activity_github_issues.*
 import kotlinx.android.synthetic.main.include_title.*
 
-class GithubIssuesActivity : CBaseActivity() {
+class GithubIssuesActivity : PermissionBaseActivity() {
 
-    private val address = "https://github.com/gemgao/AndroidDemo"
+    private val address = "https://github.com/gemgao/redenvelopes/blob/master/README.md"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

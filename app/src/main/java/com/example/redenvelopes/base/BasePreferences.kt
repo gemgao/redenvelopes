@@ -3,7 +3,7 @@ package com.example.redenvelopes.base
 import android.content.Context
 import android.content.SharedPreferences
 
-open class CBasePreferences(private val fileName: String, private val cContext: Context) {
+open class BasePreferences(private val fileName: String, private val cContext: Context) {
 
     open fun setString(key: String, value: String, context: Context = cContext) {
         getEditor(context).putString(key, value).apply()

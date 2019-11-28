@@ -4,7 +4,7 @@ import android.accessibilityservice.AccessibilityServiceInfo
 import android.content.Context
 import android.view.accessibility.AccessibilityManager
 
-open class CBaseAccessibilityActivity : CBaseActivity() {
+open class BaseAccessibilityActivity : PermissionBaseActivity() {
 
     private lateinit var accessibilityManager: AccessibilityManager
     private lateinit var accessibilityServiceListeners: AccessibilityServiceListeners

@@ -3,7 +3,7 @@ package com.example.redenvelopes.base
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 
-open class BaseActivity : CBaseAccessibilityActivity() {
+open class BaseActivity : BaseAccessibilityActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

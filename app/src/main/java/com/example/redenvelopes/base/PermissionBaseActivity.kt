@@ -9,7 +9,7 @@ import com.example.redenvelopes.`interface`.PermissionListener
 import java.util.ArrayList
 
 
-open class CBaseActivity : AppCompatActivity() {
+open class PermissionBaseActivity : AppCompatActivity() {
 
     private var mRequestCode: Int = 0
     private lateinit var mPermissionListener: PermissionListener

@@ -1,13 +1,13 @@
 package com.example.redenvelopes.data
 
 import com.example.redenvelopes.MyApplication
-import com.example.redenvelopes.base.CBasePreferences
+import com.example.redenvelopes.base.BasePreferences
 import com.example.redenvelopes.dao.WechatControlVO
 import kotlinx.serialization.json.JSON
 
 
 object RedEnvelopePreferences :
-    CBasePreferences("redenvelope_preferences", MyApplication.instance.applicationContext) {
+    BasePreferences("redenvelope_preferences", MyApplication.instance.applicationContext) {
 
     private val WECHAT_CONTROL = "wechat_control"
 
