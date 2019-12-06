@@ -3,7 +3,7 @@
 
 
 # 使用
-下载[红包辅助](https://github.com/gemgao/redenvelopes/tree/master/apks "红包辅助")，打开红包辅助，打开无障碍，通知权限，然后就可以了
+下载[红包辅助](https://github.com/gemgao/redenvelopes/tree/master "红包辅助")，打开红包辅助，打开无障碍，通知权限，然后就可以了
 
 # 更新记录
 1.0.1 适配微信7.0.9
