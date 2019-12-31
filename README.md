@@ -3,7 +3,7 @@
 
 
 # 使用
-下载[红包辅助](https://github.com/gemgao/redenvelopes/tree/master "红包辅助")，打开红包辅助，打开无障碍，通知权限，然后就可以了
+下载[红包辅助](https://github.com/gemgao/redenvelopes/tree/master/app/release "红包辅助")，打开红包辅助，打开无障碍，通知权限，然后就可以了
 
 # 更新记录
 
