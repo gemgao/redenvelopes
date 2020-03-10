@@ -26,7 +26,7 @@ object WechatConstants {
 
 
     fun setVersion(version: String) {
-        Log.d(Tag,"version:$version")
+        Log.d(Tag, "version:$version")
         when (version) {
             "7.0.3" -> {
 
@@ -104,6 +104,26 @@ object WechatConstants {
 
                 RED_ENVELOPE_TITLE_ID = "com.tencent.mm:id/bal" //红包id
                 RED_ENVELOPE_RECT_TITLE_ID = "com.tencent.mm:id/bah" //红包RECT id
+            }
+            "7.0.12" -> {
+                RED_ENVELOPE_ID = "com.tencent.mm:id/ajp" //聊天页面红包点击框控件id
+                RED_ENVELOPE_BEEN_GRAB_ID = "com.tencent.mm:id/qr" //聊天页面检测红包已被领控件id
+                RED_ENVELOPE_FLAG_ID = "com.tencent.mm:id/r2" //聊天页面区分红包id
+                RED_ENVELOPE_OPEN_ID = "com.tencent.mm:id/d_4" //抢红包页面点开控件id
+                RED_ENVELOPE_CLOSE_ID = "com.tencent.mm:id/d84" //抢红包页面退出控件id
+
+                RED_ENVELOPE_TITLE_ID = "com.tencent.mm:id/cto" //首页底面小文字的id
+                RED_ENVELOPE_RECT_TITLE_ID = "com.tencent.mm:id/cto" //红包RECT id
+            }
+            else -> {
+                RED_ENVELOPE_ID = "com.tencent.mm:id/ajp" //聊天页面红包点击框控件id
+                RED_ENVELOPE_BEEN_GRAB_ID = "com.tencent.mm:id/qr" //聊天页面检测红包已被领控件id
+                RED_ENVELOPE_FLAG_ID = "com.tencent.mm:id/r2" //聊天页面区分红包id
+                RED_ENVELOPE_OPEN_ID = "com.tencent.mm:id/d_4" //抢红包页面点开控件id
+                RED_ENVELOPE_CLOSE_ID = "com.tencent.mm:id/d84" //抢红包页面退出控件id
+
+                RED_ENVELOPE_TITLE_ID = "com.tencent.mm:id/cto" //首页底面小文字的id
+                RED_ENVELOPE_RECT_TITLE_ID = "com.tencent.mm:id/cto" //红包RECT id
             }
         }
     }

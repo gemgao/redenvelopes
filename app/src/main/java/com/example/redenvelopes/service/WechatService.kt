@@ -148,12 +148,13 @@ class WechatService : AccessibilityService() {
         Log.d(TAG,"monitorChat")
         if (!RedEnvelopePreferences.wechatControl.isMonitorChat) return
         val lists = AccessibilityServiceUtils.getElementsById(RED_ENVELOPE_RECT_TITLE_ID, rootInActiveWindow) ?: return
+        Log.d(TAG,"lists"+lists.toString())
         for (envelope in lists) {
-            val redEnvelope = envelope.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_TITLE_ID)
-            if (redEnvelope.isNotEmpty()) {
-                if (redEnvelope[0].text.contains(RED_ENVELOPE_TITLE)) {
+            Log.d(TAG,"文字--"+envelope.text)
+            if (envelope.text.isNotEmpty()) {
+                if (envelope.text.contains(RED_ENVELOPE_TITLE)) {
                     Log.d(TAG,"monitorChat:红包")
-                    envelope.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+                    AccessibilityHelper.performClick(envelope)
                     isHasReceived = true
                 }
             }
