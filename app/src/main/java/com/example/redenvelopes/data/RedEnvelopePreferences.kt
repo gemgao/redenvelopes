@@ -28,6 +28,4 @@ object RedEnvelopePreferences :
         set(value) {
             setString(WECHAT_CONTROL, JSON.stringify(WechatControlVO.serializer(), value))
         }
-
-
 }

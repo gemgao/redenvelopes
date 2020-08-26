@@ -11,30 +11,26 @@ import android.graphics.Path
 import android.os.Build
 import android.util.Log
 import android.view.accessibility.AccessibilityEvent
-import android.view.accessibility.AccessibilityNodeInfo
+import androidx.annotation.RequiresApi
 import com.example.redenvelopes.MyApplication
 import com.example.redenvelopes.R
 import com.example.redenvelopes.WechatConstants
 import com.example.redenvelopes.WechatConstants.RED_ENVELOPE_BEEN_GRAB_ID
-import com.example.redenvelopes.WechatConstants.RED_ENVELOPE_CLOSE_ID
 import com.example.redenvelopes.WechatConstants.RED_ENVELOPE_FLAG_ID
 import com.example.redenvelopes.WechatConstants.RED_ENVELOPE_ID
 import com.example.redenvelopes.WechatConstants.RED_ENVELOPE_OPEN_ID
 import com.example.redenvelopes.WechatConstants.RED_ENVELOPE_RECT_TITLE_ID
 import com.example.redenvelopes.WechatConstants.RED_ENVELOPE_TITLE
-import com.example.redenvelopes.WechatConstants.RED_ENVELOPE_TITLE_ID
 import com.example.redenvelopes.WechatConstants.WECHAT_LUCKYMONEYDETAILUI_ACTIVITY
 import com.example.redenvelopes.WechatConstants.WECHAT_LUCKYMONEY_ACTIVITY
 import com.example.redenvelopes.WechatConstants.WECHAT_PACKAGE
 import com.example.redenvelopes.activity.MainActivity
 import com.example.redenvelopes.data.RedEnvelopePreferences
-import com.example.redenvelopes.utils.AccessibilityHelper
-import com.example.redenvelopes.utils.AccessibilityServiceUtils
-import com.example.redenvelopes.utils.AppUtils
-import com.example.redenvelopes.utils.WakeupTools
+import com.example.redenvelopes.utils.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+
 
 class WechatService : AccessibilityService() {
     private val TAG = "========"
@@ -82,6 +78,7 @@ class WechatService : AccessibilityService() {
     override fun onInterrupt() {
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onAccessibilityEvent(event: AccessibilityEvent) {
 
 
@@ -94,19 +91,18 @@ class WechatService : AccessibilityService() {
 
         when (event.eventType) {
             AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED -> {
-                Log.d(TAG,"通知改变" + event.text)
+                Log.d(TAG, "通知改变" + event.text)
                 monitorNotification(event)
             }
             AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED -> {
-                Log.d(TAG,"界面改变")
+                Log.d(TAG, "界面改变$event")
                 openRedEnvelope(event)
-//                openRedEnvelopeNew(event)
                 quitEnvelope(event)
             }
             AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED -> {
                 if (rootInActiveWindow == null)
                     return
-                Log.d(TAG,"内容改变")
+                Log.d(TAG, "内容改变")
                 grabRedEnvelope()
                 monitorChat()
             }
@@ -121,21 +117,21 @@ class WechatService : AccessibilityService() {
         if (!RedEnvelopePreferences.wechatControl.isMonitorNotification) return
         if (isHasReceived) return
         val texts = event.text
-        Log.d(TAG,"检测到微信通知，文本为------------>$texts")
+        Log.d(TAG, "检测到微信通知，文本为------------>$texts")
         if (texts.isEmpty())
             return
         if (texts.toString().contains(RED_ENVELOPE_TITLE)) {
-            Log.d(TAG,"monitorNotification:红包")
+            Log.d(TAG, "monitorNotification:红包")
             WakeupTools.wakeUpAndUnlock(applicationContext)
             //以下是精华，将QQ的通知栏消息打开
             val notification = event.parcelableData as Notification
             val pendingIntent = notification.contentIntent
             try {
-                Log.d(TAG,"准备打开通知栏")
+                Log.d(TAG, "准备打开通知栏")
                 pendingIntent.send()
                 isHasReceived = true
             } catch (e: PendingIntent.CanceledException) {
-                Log.d(TAG,"error:$e")
+                Log.d(TAG, "error:$e")
             }
         }
 
@@ -145,15 +141,18 @@ class WechatService : AccessibilityService() {
      * 监控微信聊天列表页面是否有红包，经测试若聊天页面与通知同时开启聊天页面快
      */
     private fun monitorChat() {
-        Log.d(TAG,"monitorChat")
+        Log.d(TAG, "monitorChat")
         if (!RedEnvelopePreferences.wechatControl.isMonitorChat) return
-        val lists = AccessibilityServiceUtils.getElementsById(RED_ENVELOPE_RECT_TITLE_ID, rootInActiveWindow) ?: return
-        Log.d(TAG,"lists"+lists.toString())
+        val lists = AccessibilityServiceUtils.getElementsById(
+            RED_ENVELOPE_RECT_TITLE_ID,
+            rootInActiveWindow
+        ) ?: return
+        Log.d(TAG, "lists" + lists.toString())
         for (envelope in lists) {
-            Log.d(TAG,"文字--"+envelope.text)
+            Log.d(TAG, "文字--" + envelope.text)
             if (envelope.text.isNotEmpty()) {
                 if (envelope.text.contains(RED_ENVELOPE_TITLE)) {
-                    Log.d(TAG,"monitorChat:红包")
+                    Log.d(TAG, "monitorChat:红包")
                     AccessibilityHelper.performClick(envelope)
                     isHasReceived = true
                 }
@@ -166,9 +165,12 @@ class WechatService : AccessibilityService() {
      * 聊天页面监控点击红包
      */
     private fun grabRedEnvelope() {
-        Log.d(TAG,"grabRedEnvelope")
+        Log.d(TAG, "grabRedEnvelope")
 
-        val envelopes = AccessibilityServiceUtils.getElementsById(RED_ENVELOPE_ID, rootInActiveWindow) ?: return
+        val envelopes = AccessibilityServiceUtils.getElementsById(
+            RED_ENVELOPE_ID,
+            rootInActiveWindow
+        ) ?: return
 
         /* 发现红包点击进入领取红包页面 */
         for (envelope in envelopes.reversed()) {
@@ -176,7 +178,7 @@ class WechatService : AccessibilityService() {
                 continue
             if (!AccessibilityServiceUtils.isExistElementById(RED_ENVELOPE_FLAG_ID, envelope))
                 continue
-            Log.d(TAG,"发现红包：$envelope")
+            Log.d(TAG, "发现红包：$envelope")
             AccessibilityHelper.performClick(envelope)
             isHasClicked = true
 //            break
@@ -187,30 +189,44 @@ class WechatService : AccessibilityService() {
     /**
      * 拆开红包
      */
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun openRedEnvelope(event: AccessibilityEvent) {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) return
         if (event.className != WECHAT_LUCKYMONEY_ACTIVITY) return
-
-        var envelopes = AccessibilityServiceUtils.getElementsById(RED_ENVELOPE_OPEN_ID, rootInActiveWindow) ?: return
-        if (envelopes.isEmpty()) {
-            envelopes = rootInActiveWindow.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_CLOSE_ID)
-            /* 进入红包页面点击退出按钮 */
-            for (envelope in envelopes.reversed()) {
-                AccessibilityHelper.performClick(envelope)
-            }
-        } else {
-            /* 进入红包页面点击开按钮 */
-            for (envelope in envelopes.reversed()) {
-                GlobalScope.launch {
-                    val delayTime = 1000L * RedEnvelopePreferences.wechatControl.delayOpenTime
-                    Log.d(TAG,"delay open time:$delayTime")
-                    delay(delayTime)
-                    AccessibilityHelper.performClick(envelope)
-                    isHasOpened = true
-                    isHasClicked = false
+        GlobalScope.launch {
+            val delayTime = 80L//小米10测试数据
+            Log.d(TAG, "延时开红包:$delayTime")
+            delay(delayTime)
+            var envelopes = AccessibilityServiceUtils.getElementsById(
+                RED_ENVELOPE_OPEN_ID,
+                rootInActiveWindow
+            )
+            Log.d(TAG, "拆红包页面:$envelopes")
+            if (envelopes != null) {
+                if (envelopes.isEmpty()) {
+                    openRedEnvelopeNew(event)
+        //            envelopes = rootInActiveWindow.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_CLOSE_ID)
+        //            Log.d(TAG, "拆红包页面1111:$envelopes")
+        //            /* 进入红包页面点击退出按钮 */
+        //            for (envelope in envelopes.reversed()) {
+        //                AccessibilityHelper.performClick(envelope)
+        //            }
+                } else {
+                    Log.d(TAG, "拆红包页面2222:$envelopes")
+                    /* 进入红包页面点击开按钮 */
+                    for (envelope in envelopes.reversed()) {
+                        GlobalScope.launch {
+                            val delayTime = 1000L * RedEnvelopePreferences.wechatControl.delayOpenTime
+                            Log.d(TAG, "delay open time:$delayTime")
+                            delay(delayTime)
+                            AccessibilityHelper.performClick(envelope)
+                            isHasOpened = true
+                            isHasClicked = false
+                        }
+                    }
                 }
             }
         }
+
     }
 
 
@@ -219,13 +235,13 @@ class WechatService : AccessibilityService() {
      */
     private fun quitEnvelope(event: AccessibilityEvent) {
 
-        Log.d(TAG,"quitEnvelope")
+        Log.d(TAG, "quitEnvelope")
         if (event.className != WECHAT_LUCKYMONEYDETAILUI_ACTIVITY) return
         if (!isHasOpened) return //如果不是点击进来的则不退出
 
         GlobalScope.launch {
             val delayTime = 1000L * RedEnvelopePreferences.wechatControl.delayCloseTime
-            Log.d(TAG,"delay close time:$delayTime")
+            Log.d(TAG, "delay close time:$delayTime")
             if (delayTime != 11000L) {
                 delay(delayTime)
                 performGlobalAction(GLOBAL_ACTION_BACK)
@@ -235,15 +251,15 @@ class WechatService : AccessibilityService() {
     }
 
     private fun openRedEnvelopeNew(event: AccessibilityEvent) {
-        Log.d(TAG,"Build.VERSION.SDK_INT:" + Build.VERSION.SDK_INT)
+        Log.d(TAG, "Build.VERSION.SDK_INT:" + Build.VERSION.SDK_INT)
         if (!isHasClicked) return
         if (WECHAT_LUCKYMONEY_ACTIVITY != currentClassName) return
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Log.d(TAG,"sdk:" + Build.VERSION.SDK_INT)
+            Log.d(TAG, "sdk:" + Build.VERSION.SDK_INT)
             val metrics = resources.displayMetrics
             val dpi = metrics.densityDpi
             val path = Path()
-
+            Log.d(TAG, "dpi---:$dpi")
             when (dpi) {
                 640 -> //1440
                     path.moveTo(720f, 1575f)
@@ -253,9 +269,13 @@ class WechatService : AccessibilityService() {
                     path.moveTo(540f, 1465f) //oppo r15,android 9, 小米8 android 9
 //                  path.moveTo(540f, 1210f) //小米mix5
                 440 -> //1080*2160
-                    path.moveTo(450f, 1250f)
+                    path.moveTo(540f, 1210f)
                 420 -> //420一加5T
                     path.moveTo(540f, 1213f)
+                400 ->
+                    path.moveTo(550f, 1200f) //华为mate9
+                else ->
+                    path.moveTo(550f, 1200f)
             }
             val build = GestureDescription.Builder()
             val gestureDescription =
@@ -265,12 +285,12 @@ class WechatService : AccessibilityService() {
 
                 override fun onCompleted(gestureDescription: GestureDescription?) {
                     super.onCompleted(gestureDescription)
-                    Log.d(TAG,"onCompleted")
+                    Log.d(TAG, "onCompleted")
                 }
 
                 override fun onCancelled(gestureDescription: GestureDescription?) {
                     super.onCancelled(gestureDescription)
-                    Log.d(TAG,"onCancelled")
+                    Log.d(TAG, "onCancelled")
                 }
 
             }, null)

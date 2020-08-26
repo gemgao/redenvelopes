@@ -23,8 +23,7 @@ object WechatConstants {
     var RED_ENVELOPE_RECT_TITLE_ID = "com.tencent.mm:id/b5m" //红包RECT id
 
     var RED_ENVELOPE_COUNT_ID = "com.tencent.mm:id/csy" //红包金额id
-
-
+    var DELAYTIME = 80f
     fun setVersion(version: String) {
         Log.d(Tag, "version:$version")
         when (version) {
@@ -124,6 +123,18 @@ object WechatConstants {
 
                 RED_ENVELOPE_TITLE_ID = "com.tencent.mm:id/cw7" //首页底面小文字的id
                 RED_ENVELOPE_RECT_TITLE_ID = "com.tencent.mm:id/cw7" //红包RECT id
+            }
+            "7.0.18" -> {
+                RED_ENVELOPE_TITLE_ID = "com.tencent.mm:id/cyv" //首页底面小文字的id
+                RED_ENVELOPE_RECT_TITLE_ID = "com.tencent.mm:id/cyv" //首页底面小文字的id
+                RED_ENVELOPE_ID = "com.tencent.mm:id/al7" //聊天界面红包item点击框控件id
+
+                RED_ENVELOPE_FLAG_ID = "com.tencent.mm:id/ra" //聊天页面区分红包id
+                RED_ENVELOPE_OPEN_ID = "com.tencent.mm:id/den" //抢红包页面点开控件id
+                RED_ENVELOPE_CLOSE_ID = "com.tencent.mm:id/dem" //抢红包页面退出控件id
+                RED_ENVELOPE_BEEN_GRAB_ID = "com.tencent.mm:id/r0" //聊天页面检测红包已被领控件id
+
+
             }
             else -> {
                 RED_ENVELOPE_ID = "com.tencent.mm:id/ak4" //聊天页面红包点击框控件id

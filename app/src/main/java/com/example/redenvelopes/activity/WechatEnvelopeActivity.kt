@@ -10,7 +10,6 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.redenvelopes.R
 import com.example.redenvelopes.base.BaseActivity
-import com.example.redenvelopes.dao.WechatControlVO
 import com.example.redenvelopes.data.RedEnvelopePreferences
 import kotlinx.android.synthetic.main.include_title.*
 
@@ -24,10 +23,8 @@ class WechatEnvelopeActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
     private lateinit var mCbWechatChatControl: CheckBox
     private lateinit var mTvWechatPutong: TextView
     private lateinit var mSbWechatPutong: SeekBar
-    private lateinit var mTvWechatLingqu: TextView
-    private lateinit var mSbWechatLingqu: SeekBar
 
-    private var wechatControlVO = WechatControlVO()
+    private var wechatControlVO = com.example.redenvelopes.dao.WechatControlVO()
     private var t_putong: Int = 0
     private var t_lingqu: Int = 0
 
@@ -63,11 +60,8 @@ class WechatEnvelopeActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
         mCbWechatControl = findViewById(R.id.cb_qq_control)
         mCbWechatNotificationControl = findViewById(R.id.cb_wechat_notification_control)
         mCbWechatChatControl = findViewById(R.id.cb_wechat_chat_control)
-
         mTvWechatPutong = findViewById(R.id.tv_qq_putong)
         mSbWechatPutong = findViewById(R.id.sb_qq_putong)
-        mTvWechatLingqu = findViewById(R.id.tv_qq_lingqu)
-        mSbWechatLingqu = findViewById(R.id.sb_qq_lingqu)
 
         mCbWechatControl.setOnCheckedChangeListener { buttonView, isChecked ->
             mCbWechatControl.isChecked = !isChecked
@@ -86,8 +80,6 @@ class WechatEnvelopeActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
         }
 
         mSbWechatPutong.setOnSeekBarChangeListener(this)
-        mSbWechatLingqu.setOnSeekBarChangeListener(this)
-
     }
 
 
@@ -102,12 +94,7 @@ class WechatEnvelopeActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
         mSbWechatPutong.progress = t_putong
 
         t_lingqu = wechatControlVO.delayCloseTime
-        mSbWechatLingqu.progress = t_lingqu - 1
-        if (t_lingqu == 11) {
-            mTvWechatLingqu.text = "红包领取页关闭时间：" + "不关闭"
-        } else {
-            mTvWechatLingqu.text = "红包领取页关闭时间：" + t_lingqu + "s"
-        }
+
     }
 
     private fun addListener() {
@@ -130,16 +117,6 @@ class WechatEnvelopeActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
                 t_putong = progress
                 mTvWechatPutong.text = "领取红包延迟时间：" + t_putong + "s"
                 wechatControlVO.delayOpenTime = t_putong
-                RedEnvelopePreferences.wechatControl = wechatControlVO
-            }
-
-            R.id.sb_qq_lingqu -> {
-                t_lingqu = progress + 1
-                mTvWechatLingqu.text = "红包领取页关闭延迟时间：" + t_lingqu + "s"
-                if (t_lingqu == 11) {
-                    mTvWechatLingqu.text = "红包领取页关闭时间：" + "不关闭"
-                }
-                wechatControlVO.delayCloseTime = t_lingqu
                 RedEnvelopePreferences.wechatControl = wechatControlVO
             }
         }
