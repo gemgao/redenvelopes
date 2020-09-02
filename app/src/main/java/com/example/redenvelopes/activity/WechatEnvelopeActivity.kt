@@ -3,6 +3,8 @@ package com.example.redenvelopes.activity
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Window
 import android.widget.CheckBox
 import android.widget.SeekBar
@@ -11,6 +13,7 @@ import android.widget.Toast
 import com.example.redenvelopes.R
 import com.example.redenvelopes.base.BaseActivity
 import com.example.redenvelopes.data.RedEnvelopePreferences
+import kotlinx.android.synthetic.main.activity_wechat_envelope.*
 import kotlinx.android.synthetic.main.include_title.*
 
 
@@ -51,7 +54,7 @@ class WechatEnvelopeActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
     }
 
     private fun back() {
-        ib_back.setOnClickListener{
+        ib_back.setOnClickListener {
             finish()
         }
     }
@@ -80,6 +83,15 @@ class WechatEnvelopeActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
         }
 
         mSbWechatPutong.setOnSeekBarChangeListener(this)
+
+        //开的延迟时间
+        et_time.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                RedEnvelopePreferences.daleyTime = s.toString().toLong()
+            }
+            override fun afterTextChanged(s: Editable?) {}
+        })
     }
 
 

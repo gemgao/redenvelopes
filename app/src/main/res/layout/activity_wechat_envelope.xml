@@ -129,6 +129,19 @@
                     android:id="@+id/sb_qq_putong"
                     android:layout_marginTop="10dp"
                     android:max="10"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="@dimen/text_size_small"
+                    android:text="开的延迟时间(经测试小米10是80ms就可以)："
+                    />
+                <EditText
+                    android:id="@+id/et_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:hint="80"/>
             </LinearLayout>
 
         </LinearLayout>

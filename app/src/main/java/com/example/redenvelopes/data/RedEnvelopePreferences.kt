@@ -10,6 +10,7 @@ object RedEnvelopePreferences :
     BasePreferences("redenvelope_preferences", MyApplication.instance.applicationContext) {
 
     private val WECHAT_CONTROL = "wechat_control"
+    private val TIME = "TIME"
 
     var wechatControl: WechatControlVO
         get() {
@@ -27,5 +28,10 @@ object RedEnvelopePreferences :
         }
         set(value) {
             setString(WECHAT_CONTROL, JSON.stringify(WechatControlVO.serializer(), value))
+        }
+    var daleyTime: Long
+        get() = getLong(TIME, 0L)
+        set(value) {
+            setLong(TIME, value)
         }
 }

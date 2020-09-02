@@ -26,6 +26,7 @@ import com.example.redenvelopes.WechatConstants.WECHAT_LUCKYMONEY_ACTIVITY
 import com.example.redenvelopes.WechatConstants.WECHAT_PACKAGE
 import com.example.redenvelopes.activity.MainActivity
 import com.example.redenvelopes.data.RedEnvelopePreferences
+import com.example.redenvelopes.data.RedEnvelopePreferences.daleyTime
 import com.example.redenvelopes.utils.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -193,8 +194,9 @@ class WechatService : AccessibilityService() {
     private fun openRedEnvelope(event: AccessibilityEvent) {
         if (event.className != WECHAT_LUCKYMONEY_ACTIVITY) return
         GlobalScope.launch {
-            val delayTime = 80L//小米10测试数据
-            Log.d(TAG, "延时开红包:$delayTime")
+
+            val delayTime = 80L + daleyTime//小米10测试数据
+            Log.d(TAG, "延时开红包:$daleyTime")
             delay(delayTime)
             var envelopes = AccessibilityServiceUtils.getElementsById(
                 RED_ENVELOPE_OPEN_ID,
@@ -204,18 +206,19 @@ class WechatService : AccessibilityService() {
             if (envelopes != null) {
                 if (envelopes.isEmpty()) {
                     openRedEnvelopeNew(event)
-        //            envelopes = rootInActiveWindow.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_CLOSE_ID)
-        //            Log.d(TAG, "拆红包页面1111:$envelopes")
-        //            /* 进入红包页面点击退出按钮 */
-        //            for (envelope in envelopes.reversed()) {
-        //                AccessibilityHelper.performClick(envelope)
-        //            }
+                    //            envelopes = rootInActiveWindow.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_CLOSE_ID)
+                    //            Log.d(TAG, "拆红包页面1111:$envelopes")
+                    //            /* 进入红包页面点击退出按钮 */
+                    //            for (envelope in envelopes.reversed()) {
+                    //                AccessibilityHelper.performClick(envelope)
+                    //            }
                 } else {
                     Log.d(TAG, "拆红包页面2222:$envelopes")
                     /* 进入红包页面点击开按钮 */
                     for (envelope in envelopes.reversed()) {
                         GlobalScope.launch {
-                            val delayTime = 1000L * RedEnvelopePreferences.wechatControl.delayOpenTime
+                            val delayTime =
+                                1000L * RedEnvelopePreferences.wechatControl.delayOpenTime
                             Log.d(TAG, "delay open time:$delayTime")
                             delay(delayTime)
                             AccessibilityHelper.performClick(envelope)
