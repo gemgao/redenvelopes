@@ -174,16 +174,27 @@ class WechatService : AccessibilityService() {
         ) ?: return
 
         /* 发现红包点击进入领取红包页面 */
-        for (envelope in envelopes.reversed()) {
-            if (AccessibilityServiceUtils.isExistElementById(RED_ENVELOPE_BEEN_GRAB_ID, envelope))
-                continue
-            if (!AccessibilityServiceUtils.isExistElementById(RED_ENVELOPE_FLAG_ID, envelope))
-                continue
-            Log.d(TAG, "发现红包：$envelope")
-            AccessibilityHelper.performClick(envelope)
-            isHasClicked = true
+        GlobalScope.launch {
+            val delayTime = 100L + daleyTime//小米10测试数据
+            delay(delayTime)
+            for (envelope in envelopes.reversed()) {
+                if (AccessibilityServiceUtils.isExistElementById(
+                        RED_ENVELOPE_BEEN_GRAB_ID,
+                        envelope
+                    )
+                )
+                    continue
+                if (!AccessibilityServiceUtils.isExistElementById(RED_ENVELOPE_FLAG_ID, envelope))
+                    continue
+                Log.d(TAG, "发现红包：$envelope")
+
+                AccessibilityHelper.performClick(envelope)
+                isHasClicked = true
+
 //            break
+            }
         }
+
         isHasReceived = false
     }
 
@@ -195,7 +206,7 @@ class WechatService : AccessibilityService() {
         if (event.className != WECHAT_LUCKYMONEY_ACTIVITY) return
         GlobalScope.launch {
 
-            val delayTime = 80L + daleyTime//小米10测试数据
+            val delayTime = 100L + daleyTime//小米10测试数据
             Log.d(TAG, "延时开红包:$daleyTime")
             delay(delayTime)
             var envelopes = AccessibilityServiceUtils.getElementsById(
