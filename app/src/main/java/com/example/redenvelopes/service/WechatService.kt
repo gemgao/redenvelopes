@@ -175,7 +175,7 @@ class WechatService : AccessibilityService() {
 
         /* 发现红包点击进入领取红包页面 */
         GlobalScope.launch {
-            val delayTime = 100L + daleyTime//小米10测试数据
+            val delayTime = 150L + daleyTime//小米10测试数据
             delay(delayTime)
             for (envelope in envelopes.reversed()) {
                 if (AccessibilityServiceUtils.isExistElementById(
@@ -206,7 +206,7 @@ class WechatService : AccessibilityService() {
         if (event.className != WECHAT_LUCKYMONEY_ACTIVITY) return
         GlobalScope.launch {
 
-            val delayTime = 100L + daleyTime//小米10测试数据
+            val delayTime = 150L + daleyTime//小米10测试数据
             Log.d(TAG, "延时开红包:$daleyTime")
             delay(delayTime)
             var envelopes = AccessibilityServiceUtils.getElementsById(

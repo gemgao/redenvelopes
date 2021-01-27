@@ -148,6 +148,18 @@ object WechatConstants {
 
 
             }
+            "8.0.0" -> {
+                RED_ENVELOPE_TITLE_ID = "com.tencent.mm:id/e7t" //首页底面小文字的id
+                RED_ENVELOPE_RECT_TITLE_ID = "com.tencent.mm:id/e7t" //首页底面小文字的id
+                RED_ENVELOPE_ID = "com.tencent.mm:id/auf" //聊天界面红包item点击框控件id
+
+                RED_ENVELOPE_FLAG_ID = "com.tencent.mm:id/u5" //聊天页面区分红包id
+                RED_ENVELOPE_OPEN_ID = "com.tencent.mm:id/f4f" //抢红包页面点开控件id
+                RED_ENVELOPE_CLOSE_ID = "com.tencent.mm:id/ei" //抢红包页面退出控件id
+                RED_ENVELOPE_BEEN_GRAB_ID = "com.tencent.mm:id/tt" //聊天页面检测红包已被领控件id
+
+
+            }
             else -> {
                 RED_ENVELOPE_TITLE_ID = "com.tencent.mm:id/cyv" //首页底面小文字的id
                 RED_ENVELOPE_RECT_TITLE_ID = "com.tencent.mm:id/cyv" //首页底面小文字的id
