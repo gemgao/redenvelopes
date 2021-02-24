@@ -16,6 +16,7 @@ import com.example.redenvelopes.MyApplication
 import com.example.redenvelopes.R
 import com.example.redenvelopes.WechatConstants
 import com.example.redenvelopes.WechatConstants.RED_ENVELOPE_BEEN_GRAB_ID
+import com.example.redenvelopes.WechatConstants.RED_ENVELOPE_CLOSE_ID
 import com.example.redenvelopes.WechatConstants.RED_ENVELOPE_FLAG_ID
 import com.example.redenvelopes.WechatConstants.RED_ENVELOPE_ID
 import com.example.redenvelopes.WechatConstants.RED_ENVELOPE_OPEN_ID
@@ -216,13 +217,9 @@ class WechatService : AccessibilityService() {
             Log.d(TAG, "拆红包页面:$envelopes")
             if (envelopes != null) {
                 if (envelopes.isEmpty()) {
-                    openRedEnvelopeNew(event)
-                    //            envelopes = rootInActiveWindow.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_CLOSE_ID)
-                    //            Log.d(TAG, "拆红包页面1111:$envelopes")
-                    //            /* 进入红包页面点击退出按钮 */
-                    //            for (envelope in envelopes.reversed()) {
-                    //                AccessibilityHelper.performClick(envelope)
-                    //            }
+                    // 没有开按钮，则点击退出按钮
+                    performGlobalAction(GLOBAL_ACTION_BACK)
+                    return@launch
                 } else {
                     Log.d(TAG, "拆红包页面2222:$envelopes")
                     /* 进入红包页面点击开按钮 */
@@ -264,52 +261,4 @@ class WechatService : AccessibilityService() {
         isHasOpened = false
     }
 
-    private fun openRedEnvelopeNew(event: AccessibilityEvent) {
-        Log.d(TAG, "Build.VERSION.SDK_INT:" + Build.VERSION.SDK_INT)
-        if (!isHasClicked) return
-        if (WECHAT_LUCKYMONEY_ACTIVITY != currentClassName) return
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Log.d(TAG, "sdk:" + Build.VERSION.SDK_INT)
-            val metrics = resources.displayMetrics
-            val dpi = metrics.densityDpi
-            val path = Path()
-            Log.d(TAG, "dpi---:$dpi")
-            when (dpi) {
-                640 -> //1440
-                    path.moveTo(720f, 1575f)
-                320 -> //720p
-                    path.moveTo(360f, 780f)
-                480 -> //1080p
-                    path.moveTo(540f, 1465f) //oppo r15,android 9, 小米8 android 9
-//                  path.moveTo(540f, 1210f) //小米mix5
-                440 -> //1080*2160
-                    path.moveTo(540f, 1210f)
-                420 -> //420一加5T
-                    path.moveTo(540f, 1213f)
-                400 ->
-                    path.moveTo(550f, 1200f) //华为mate9
-                else ->
-                    path.moveTo(550f, 1200f)
-            }
-            val build = GestureDescription.Builder()
-            val gestureDescription =
-                build.addStroke(GestureDescription.StrokeDescription(path, 500, 100)).build()
-
-            dispatchGesture(gestureDescription, object : GestureResultCallback() {
-
-                override fun onCompleted(gestureDescription: GestureDescription?) {
-                    super.onCompleted(gestureDescription)
-                    Log.d(TAG, "onCompleted")
-                }
-
-                override fun onCancelled(gestureDescription: GestureDescription?) {
-                    super.onCancelled(gestureDescription)
-                    Log.d(TAG, "onCancelled")
-                }
-
-            }, null)
-        }
-        isHasOpened = true
-        isHasClicked = false
-    }
 }
